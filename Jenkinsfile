@@ -14,7 +14,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the code from version control (e.g., Git)
-                git 'https://your-repo-url.git'
+                git 'https://github.com/SzabolcsBeko/hello-world-jenkins.git'
             }
         }
 
