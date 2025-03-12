@@ -36,11 +36,6 @@ pipeline {
             }
         }
 
-        stage('Post-Build Actions') {
-            steps {
-                junit '**/target/test-*.xml'  // Archive test results
-            }
-        }
     }
 
     post {
