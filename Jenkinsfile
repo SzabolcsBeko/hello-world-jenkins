@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-				git branch: 'master'
+		git branch: 'master'
                 // Checkout the code from GitHub or any repository
                 url: 'https://github.com/SzabolcsBeko/hello-world-jenkins.git'
             }
