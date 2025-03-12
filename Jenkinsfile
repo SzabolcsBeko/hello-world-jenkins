@@ -1,15 +1,12 @@
 pipeline {
     agent any
 
-    environment {
-        JAVA_HOME = tool name: 'JDK 17', type: 'JDK'
-    }
-
     stages {
         stage('Checkout') {
             steps {
+				git branch: 'master'
                 // Checkout the code from GitHub or any repository
-                git 'https://github.com/SzabolcsBeko/hello-world-jenkins.git'
+                url: 'https://github.com/SzabolcsBeko/hello-world-jenkins.git'
             }
         }
 
