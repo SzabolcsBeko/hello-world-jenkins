@@ -47,8 +47,14 @@ pipeline {
 
     post {
         always {
-            // Clean up, notify or any other actions after build completes
-            echo 'Cleaning up after build.'
+            // Clean up if needed
+            cleanWs()
+        }
+        success {
+            echo 'Build and tests passed!'
+        }
+        failure {
+            echo 'Build or tests failed.'
         }
     }
 }
