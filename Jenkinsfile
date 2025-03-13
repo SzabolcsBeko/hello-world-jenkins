@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        JAVA_HOME = 'D:\\dev\\Java\\jdk-17'
-        PATH = "${JAVA_HOME}\\bin:${env.PATH}"
+        JAVA_HOME = tool name: 'JDK17', type: 'ToolJava'
+        PATH = "${JAVA_HOME}/bin:${env.PATH}"
     }
 
     tools {
@@ -20,9 +20,12 @@ pipeline {
 
         stage('Build') {
             steps {
-                // Run the Maven build
+                // Make sure Java is available, just to confirm JAVA_HOME is set
+                    sh 'echo $JAVA_HOME'
+                
+                // Run build commands
                 script {
-                    sh 'mvn clean install'
+                    sh './mvn clean install'
                 }
             }
         }
@@ -31,7 +34,7 @@ pipeline {
             steps {
                 // Run tests using Maven
                 script {
-                    sh 'mvn test'
+                    sh './mvn test'
                 }
             }
         }
