@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        JAVA_HOME = tool name: 'JDK17'
-        PATH = "${JAVA_HOME}/bin:${env.PATH}"
+        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
+        DOCKER_IMAGE = 'maven:3.8.4-openjdk-17'
     }
 
     tools {
@@ -14,18 +14,15 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the code from version control (e.g., Git)
-                git 'https://github.com/SzabolcsBeko/hello-world-jenkins.git'
+                git branch: 'master', url: 'https://github.com/SzabolcsBeko/hello-world-jenkins.git'
             }
         }
 
         stage('Build') {
             steps {
-                // Make sure Java is available, just to confirm JAVA_HOME is set
-                    sh 'echo $JAVA_HOME'
-                
                 // Run build commands
                 script {
-                    sh './mvn clean install'
+                    sh 'mvn clean install'
                 }
             }
         }
@@ -34,8 +31,15 @@ pipeline {
             steps {
                 // Run tests using Maven
                 script {
-                    sh './mvn test'
+                    sh 'mvn test'
                 }
+            }
+        }
+
+        stage('Publish Results') {
+            steps {
+                // Publish JUnit test results to Jenkins
+                junit '**/target/test-classes/*.xml'  // Adjust the path as per your test results location
             }
         }
 
