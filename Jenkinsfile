@@ -6,10 +6,6 @@ pipeline {
         DOCKER_IMAGE = 'maven:3.8.4-openjdk-17'
     }
 
-    tools {
-        maven 'Maven 3' // Assumes Maven is installed and set up in Jenkins
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -24,6 +20,7 @@ pipeline {
                 script {
                     docker.image(DOCKER_IMAGE).inside {
                     sh 'mvn clean install'
+                    }
                 }
             }
         }
@@ -43,8 +40,8 @@ pipeline {
                 junit '**/target/test-classes/*.xml'  // Adjust the path as per your test results location
             }
          }
-       }
     }
+    
 
     post {
         always {
