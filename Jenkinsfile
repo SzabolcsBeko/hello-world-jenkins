@@ -18,10 +18,11 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build & Generate Jar') {
             steps {
                 // Run build commands
                 script {
+                    docker.image(DOCKER_IMAGE).inside {
                     sh 'mvn clean install'
                 }
             }
