@@ -22,7 +22,7 @@ pipeline {
             steps {
                 // Run the Maven build
                 script {
-                    bat 'mvn clean install'
+                    sh 'mvn clean install'
                 }
             }
         }
@@ -31,7 +31,7 @@ pipeline {
             steps {
                 // Run tests using Maven
                 script {
-                    bat 'mvn test'
+                    sh 'mvn test'
                 }
             }
         }
