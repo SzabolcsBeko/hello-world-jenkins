@@ -3,7 +3,10 @@ pipeline {
 
     environment {
         JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
-        DOCKER_IMAGE = 'maven:3.8.4-openjdk-17'
+    }
+
+    tools {
+        maven 'Maven 3'
     }
 
     stages {
@@ -18,9 +21,7 @@ pipeline {
             steps {
                 // Run build commands
                 script {
-                    docker.image(DOCKER_IMAGE).inside {
                     sh 'mvn clean install'
-                    }
                 }
             }
         }
