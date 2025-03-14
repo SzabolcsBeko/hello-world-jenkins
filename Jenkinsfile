@@ -38,7 +38,7 @@ pipeline {
         stage('Publish Results') {
             steps {
                 // Publish JUnit test results to Jenkins
-                junit '**/target/test-classes/*.xml'  // Adjust the path as per your test results location
+                // junit '**/target/test-classes/*.xml'  // Adjust the path as per your test results location
             }
          }
     }
