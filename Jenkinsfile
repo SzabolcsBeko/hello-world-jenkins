@@ -2,27 +2,26 @@ pipeline {
     agent any
 
     environment {
-        JAVA_HOME = 'D:\\dev\\Java\\jdk-17'
-        PATH = "${JAVA_HOME}\\bin:${env.PATH}"
+        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
     }
 
     tools {
-        maven 'Maven 3' // Assumes Maven is installed and set up in Jenkins
+        maven 'Maven 3'
     }
 
     stages {
         stage('Checkout') {
             steps {
                 // Checkout the code from version control (e.g., Git)
-                git 'https://github.com/SzabolcsBeko/hello-world-jenkins.git'
+                git branch: 'master', url: 'https://github.com/SzabolcsBeko/hello-world-jenkins.git'
             }
         }
 
-        stage('Build') {
+        stage('Build & Generate Jar') {
             steps {
-                // Run the Maven build
+                // Run build commands
                 script {
-                    bat 'mvn clean install'
+                    sh 'mvn clean install'
                 }
             }
         }
@@ -31,17 +30,30 @@ pipeline {
             steps {
                 // Run tests using Maven
                 script {
-                    bat 'mvn test'
+                    sh 'mvn test'
                 }
             }
         }
 
+        stage('Publish Results') {
+            steps {
+                // Publish JUnit test results to Jenkins
+                // junit '**/target/test-classes/*.xml'  // Adjust the path as per your test results location
+            }
+         }
     }
+    
 
     post {
         always {
-            // Clean up, notify or any other actions after build completes
-            echo 'Cleaning up after build.'
+            // Clean up if needed
+            cleanWs()
+        }
+        success {
+            echo 'Build and tests passed!'
+        }
+        failure {
+            echo 'Build or tests failed.'
         }
     }
 }
