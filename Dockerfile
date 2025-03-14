@@ -1,10 +1,6 @@
 # Start with an official Jenkins image as the base image
 FROM jenkins/jenkins:lts
 
-# Set environment variables
-ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/bin/java
-
-
 # Install dependencies: Git, Maven, and Java 17
 USER root
 
@@ -15,6 +11,20 @@ RUN apt-get update && \
     maven \
     openjdk-17-jdk && \
     rm -rf /var/lib/apt/lists/*
+
+# Set environment variables
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+
+# Set the Maven home environment variable
+ENV MAVEN_HOME=/usr/share/maven
+
+# Add Maven and Java bin directories to the PATH
+ENV PATH="${JAVA_HOME}/bin:${MAVEN_HOME}/bin:${PATH}"
+
+# Verify the installations (optional)
+RUN java -version && \
+    mvn -version && \
+    git --version
 
 # Switch back to the Jenkins user
 USER jenkins
